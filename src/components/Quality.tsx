@@ -7,51 +7,28 @@ const certs = [
 
 export default function Quality() {
   return (
-    <section
-      id="quality"
-      className="py-20 border-y"
-      style={{ backgroundColor: '#ffffff', borderColor: '#e3beb9' }}
-    >
-      <div className="px-12 max-w-[1280px] mx-auto text-center">
-        <span
-          className="uppercase text-xs tracking-widest"
-          style={{ fontFamily: 'JetBrains Mono, monospace', color: '#740004' }}
-        >
+    <section id="quality" style={{ padding: '80px 0', backgroundColor: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', transition: 'background-color 0.3s, border-color 0.3s' }}>
+      <div style={{ padding: '0 48px', maxWidth: '1280px', margin: '0 auto', textAlign: 'center' }}>
+        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', color: 'var(--brand)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
           Standards of Excellence
         </span>
-        <h2
-          className="mb-8 mt-2"
-          style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '32px', fontWeight: 600 }}
-        >
+        <h2 style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '32px', fontWeight: 600, color: 'var(--text-primary)', margin: '8px 0 32px' }}>
           Quality &amp; Certification
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {certs.map((cert) => (
-            <div
-              key={cert.title}
-              className="p-8 border flex flex-col items-center gap-4 group transition-colors cursor-default"
-              style={{ border: '1px solid #e3beb9' }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#eff4f9')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-            >
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
-                style={{ backgroundColor: '#e9eef3' }}
-              >
-                <span className="material-symbols-outlined text-3xl" style={{ color: '#740004' }}>
-                  {cert.icon}
-                </span>
+            <div key={cert.title}
+              style={{ padding: '32px 16px', border: '1px solid var(--border)', borderRadius: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', transition: 'background-color 0.2s, border-color 0.3s', cursor: 'default' }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-alt)')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'var(--cert-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'transform 0.2s, background-color 0.3s' }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}>
+                <span className="material-symbols-outlined" style={{ fontSize: '28px', color: 'var(--brand)' }}>{cert.icon}</span>
               </div>
-              <h4
-                className="text-sm font-semibold"
-                style={{ fontFamily: 'Inter, sans-serif', color: '#171c20' }}
-              >
-                {cert.title}
-              </h4>
-              <p className="text-xs" style={{ color: '#515f74', fontFamily: 'Inter, sans-serif' }}>
-                {cert.desc}
-              </p>
+              <h4 style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{cert.title}</h4>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--text-secondary)', margin: 0 }}>{cert.desc}</p>
             </div>
           ))}
         </div>

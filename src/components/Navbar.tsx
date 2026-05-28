@@ -22,103 +22,107 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  const linkStyle: React.CSSProperties = {
+    color: 'var(--text-secondary)',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '14px',
+    fontWeight: 600,
+    textDecoration: 'none',
+    transition: 'color 0.2s',
+  }
+
   return (
-    <header
-      className={`fixed top-0 w-full z-50 border-b transition-all duration-300 ${
-        scrolled
-          ? 'shadow-lg border-[#e3beb9] bg-white/95 backdrop-blur-md py-2'
-          : 'border-[#e3beb9] bg-white/80 backdrop-blur-md py-0'
-      } ${isDark ? '!bg-[rgba(22,27,34,0.92)] !border-[#30363d]' : ''}`}
-    >
-      <div className="flex justify-between items-center h-20 px-12 max-w-[1280px] mx-auto">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <span
-            className="text-2xl font-bold tracking-tight uppercase"
-            style={{ fontFamily: 'Hanken Grotesk, sans-serif', color: '#740004' }}
-          >
-            ARGUS POLYMERS
-          </span>
-        </a>
+    <>
+      {/* ─── Inject responsive styles ─── */}
+      <style>{`
+        .nav-desktop { display: none; }
+        .nav-mobile  { display: flex; }
+        @media (min-width: 1024px) {
+          .nav-desktop { display: flex; align-items: center; gap: 32px; }
+          .nav-mobile  { display: none; }
+        }
+        .mobile-menu { display: none; }
+        .mobile-menu.open { display: block; }
+        .nav-link:hover { color: var(--brand) !important; }
+        .nav-btn:hover  { background-color: var(--surface-raised) !important; }
+        .quote-btn:hover { background-color: var(--brand-dark) !important; }
+        .footer-link:hover { color: var(--brand-light) !important; }
+      `}</style>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex gap-8 items-center">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-semibold transition-colors duration-200"
-              style={{ color: isDark ? '#8b949e' : '#515f74', fontFamily: 'Inter, sans-serif' }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = '#740004')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = isDark ? '#8b949e' : '#515f74')}
-            >
-              {link.label}
-            </a>
-          ))}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        zIndex: 50,
+        borderBottom: '1px solid var(--border)',
+        backgroundColor: scrolled ? 'rgba(var(--surface-rgb, 255,255,255), 0.96)' : 'rgba(var(--surface-rgb, 255,255,255), 0.82)',
+        backdropFilter: 'blur(12px)',
+        transition: 'all 0.3s ease',
+        boxShadow: scrolled ? '0 4px 16px rgba(0,0,0,0.1)' : 'none',
+        background: scrolled
+          ? `color-mix(in srgb, var(--surface) 96%, transparent)`
+          : `color-mix(in srgb, var(--surface) 82%, transparent)`,
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '80px', padding: '0 48px', maxWidth: '1280px', margin: '0 auto' }}>
 
-          <div className="h-6 w-px bg-[#e3beb9] mx-2" />
+          {/* Logo */}
+          <a href="#" style={{ textDecoration: 'none' }}>
+            <span style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '22px', fontWeight: 700, color: 'var(--brand)', textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
+              ARGUS POLYMERS
+            </span>
+          </a>
 
-          <div className="flex items-center gap-4">
+          {/* ── Desktop nav ── */}
+          <nav className="nav-desktop">
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className="nav-link" style={linkStyle}>
+                {link.label}
+              </a>
+            ))}
+
+            <div style={{ width: '1px', height: '24px', backgroundColor: 'var(--border)', margin: '0 4px' }} />
+
             <button
               aria-label="Toggle theme"
               onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-[#e9eef3] transition-colors"
-              style={{ color: '#515f74' }}
+              className="nav-btn"
+              style={{ padding: '8px', borderRadius: '50%', border: 'none', cursor: 'pointer', backgroundColor: 'transparent', color: 'var(--text-secondary)', transition: 'background 0.2s' }}
             >
-              <span className="material-symbols-outlined">
-                {isDark ? 'light_mode' : 'dark_mode'}
-              </span>
+              <span className="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
             </button>
-            <a
-              href="#contact"
-              className="px-6 py-2.5 rounded text-sm font-semibold text-white transition-all shadow-sm hover:shadow-lg active:scale-95"
-              style={{ backgroundColor: '#740004', fontFamily: 'Inter, sans-serif' }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#9c0f0f')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#740004')}
-            >
+
+            <a href="#contact" className="quote-btn"
+              style={{ padding: '10px 24px', borderRadius: '4px', backgroundColor: 'var(--brand)', color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, textDecoration: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.15)', transition: 'background-color 0.2s' }}>
               Request Quote
             </a>
+          </nav>
+
+          {/* ── Mobile controls ── */}
+          <div className="nav-mobile" style={{ alignItems: 'center', gap: '8px' }}>
+            <button onClick={toggleTheme} style={{ padding: '8px', border: 'none', backgroundColor: 'transparent', cursor: 'pointer', color: 'var(--text-secondary)' }}>
+              <span className="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
+            </button>
+            <button onClick={() => setMenuOpen(!menuOpen)} style={{ border: 'none', backgroundColor: 'transparent', cursor: 'pointer', color: 'var(--brand)' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>{menuOpen ? 'close' : 'menu'}</span>
+            </button>
           </div>
-        </nav>
-
-        {/* Mobile */}
-        <div className="lg:hidden flex items-center gap-3">
-          <button onClick={toggleTheme} className="p-2" style={{ color: '#515f74' }}>
-            <span className="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
-          </button>
-          <button onClick={() => setMenuOpen(!menuOpen)} style={{ color: '#740004' }}>
-            <span className="material-symbols-outlined text-3xl">{menuOpen ? 'close' : 'menu'}</span>
-          </button>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div
-          className="lg:hidden px-6 pb-6 space-y-4 border-t"
-          style={{ borderColor: isDark ? '#30363d' : '#e3beb9', backgroundColor: isDark ? '#161b22' : '#fff' }}
-        >
+        {/* ── Mobile dropdown menu ── */}
+        <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}
+          style={{ backgroundColor: 'var(--surface)', borderTop: '1px solid var(--border)', padding: '16px 24px 24px', transition: 'background-color 0.3s' }}>
           {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="block py-2 text-sm font-semibold"
-              style={{ color: isDark ? '#8b949e' : '#515f74', fontFamily: 'Inter, sans-serif' }}
-            >
+            <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
+              style={{ display: 'block', padding: '12px 0', color: 'var(--text-secondary)', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid var(--border)' }}>
               {link.label}
             </a>
           ))}
-          <a
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-            className="block w-full text-center px-6 py-3 rounded text-sm font-semibold text-white mt-2"
-            style={{ backgroundColor: '#740004', fontFamily: 'Inter, sans-serif' }}
-          >
+          <a href="#contact" onClick={() => setMenuOpen(false)}
+            style={{ display: 'block', textAlign: 'center', marginTop: '16px', padding: '12px 24px', borderRadius: '4px', backgroundColor: 'var(--brand)', color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
             Request Quote
           </a>
         </div>
-      )}
-    </header>
+      </header>
+    </>
   )
 }

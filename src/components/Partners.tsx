@@ -9,65 +9,33 @@ const partners = [
 
 export default function Partners() {
   return (
-    <section className="py-20 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
-      <div className="max-w-[1280px] mx-auto px-12 mb-8 text-center space-y-2">
-        <span
-          className="uppercase text-xs tracking-widest"
-          style={{ fontFamily: 'JetBrains Mono, monospace', color: '#740004' }}
-        >
+    <section style={{ padding: '80px 0', backgroundColor: 'var(--surface)', overflow: 'hidden', transition: 'background-color 0.3s' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 48px', textAlign: 'center', marginBottom: '32px' }}>
+        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', color: 'var(--brand)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '8px' }}>
           Our Network
         </span>
-        <h2 style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '32px', fontWeight: 600, margin: 0 }}>
+        <h2 style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '32px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
           Our Trusted Partners
         </h2>
       </div>
 
-      <div className="relative flex items-center">
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
         {/* Fade left */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-24 md:w-48 z-10 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, #ffffff, transparent)' }}
-        />
+        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '160px', background: 'linear-gradient(to right, var(--surface), transparent)', zIndex: 10, pointerEvents: 'none', transition: 'background 0.3s' }} />
 
-        {/* Scrolling marquee — doubled for seamless loop */}
-        <div className="animate-marquee items-center py-4">
+        <div className="animate-marquee" style={{ alignItems: 'center', padding: '16px 0' }}>
           {[...partners, ...partners].map((p, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center mx-12 md:mx-16 transition-all duration-300"
-              style={{ opacity: 0.45, filter: 'grayscale(100%)' }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.opacity = '1'
-                el.style.filter = 'none'
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.opacity = '0.45'
-                el.style.filter = 'grayscale(100%)'
-              }}
-            >
-              <span
-                className="font-bold uppercase tracking-tighter"
-                style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '20px', color: '#334155' }}
-              >
-                {p.name}
-              </span>
-              <span
-                className="text-xs"
-                style={{ fontFamily: 'JetBrains Mono, monospace', color: 'rgba(51,65,85,0.5)' }}
-              >
-                {p.type}
-              </span>
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '0 48px', opacity: 0.45, filter: 'grayscale(100%)', transition: 'all 0.3s', cursor: 'default' }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.filter = 'none' }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.45'; e.currentTarget.style.filter = 'grayscale(100%)' }}>
+              <span style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '20px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '-0.02em' }}>{p.name}</span>
+              <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: 'var(--text-muted)' }}>{p.type}</span>
             </div>
           ))}
         </div>
 
         {/* Fade right */}
-        <div
-          className="absolute right-0 top-0 bottom-0 w-24 md:w-48 z-10 pointer-events-none"
-          style={{ background: 'linear-gradient(to left, #ffffff, transparent)' }}
-        />
+        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '160px', background: 'linear-gradient(to left, var(--surface), transparent)', zIndex: 10, pointerEvents: 'none', transition: 'background 0.3s' }} />
       </div>
     </section>
   )
